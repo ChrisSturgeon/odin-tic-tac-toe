@@ -1,0 +1,13 @@
+#container {
+  display: grid;
+  height: 500px;
+  width: 500px;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.gridCell {
+  background-color: rgb(181, 248, 169);
+  height: 200px; 
+  width: 200px;
+  border: 1px solid black;
+}
