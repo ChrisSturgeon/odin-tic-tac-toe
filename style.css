@@ -12,6 +12,7 @@
 }
 
 .gridCell {
+  font-size: 2rem;
   background-color: rgb(181, 248, 169);
   height: 200px; 
   width: 200px;
