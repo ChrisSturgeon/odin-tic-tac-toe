@@ -2,6 +2,7 @@
 
 const gameBrain = (() => {
   var boardArr = [];
+  var turn = 'playerOne';
 
   const assignSquare = function(num) {
     if (gameBrain.boardArr.includes(num)) {
@@ -10,15 +11,20 @@ const gameBrain = (() => {
       console.log(num);
       boardArr.push(num);
 
-
-      var cell = document.querySelector('div[value=45]');
-      cell.innerText = "Success"
-      
-      
+      if (gameBrain.turn === 'playerOne') {
+        var cell = document.getElementById(`${num}`);
+        cell.innerText = "X";
+        gameBrain.turn = 'playerTwo';
+      } else {
+        var cell = document.getElementById(`${num}`);
+        cell.innerText = "O";
+        gameBrain.turn = 'playerOne';
+      }
     };
   };
 
   return {
+    turn,
     boardArr,
     assignSquare,
   };
@@ -32,10 +38,11 @@ const gameboard= (() => {
     for (let i = 1; i < 10; i++) {
       var cell = document.createElement('div');
       cell.classList.add('gridCell');
+      cell.setAttribute('id', i);
       cell.innerText = 'test';
       cell.value = i;
       cell.addEventListener('click', function() { gameBrain.assignSquare(this.value) });
-      container.appendChild(cell);
+      board.appendChild(cell);
     };
   };
 
@@ -45,13 +52,23 @@ const gameboard= (() => {
 // Player factory 
 
 const Player = function(name) {
-  return {name};
+  var playerArr = [];
+  return {name, playerArr};
 }
 
 const player1 = Player('playerOne');
 const player2 = Player('PlayerTwo');
 
 gameboard.makeBoard();
+
+function updateTurnShow() {
+  var turnShow = document.getElementById('turn');
+  turnShow.innerText = `Turn: ${gameBrain.turn}`;
+}
+
+updateTurnShow();
+
+
 
 
 
