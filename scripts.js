@@ -3,30 +3,33 @@
 const gameBrain = (() => {
   var boardArr = [];
   var turn = 'playerOne';
+  var active = true;
 
   const assignSquare = function(num) {
-    if (gameBrain.boardArr.includes(num)) {
-      console.log('Number taken!');
-    } else {
-      console.log(num);
-      boardArr.push(num);
-
-      if (gameBrain.turn === 'playerOne') {
-        player1.playerArr += num;
-        var cell = document.getElementById(`${num}`);
-        cell.innerText = "X";
-        checkWinner(player1.playerArr);
-        gameBrain.turn = 'playerTwo';
-        updateTurnShow();
+    if (gameBrain.active) {
+      if (gameBrain.boardArr.includes(num)) {
+        console.log('Number taken!');
       } else {
-        player2.playerArr += num;
-        var cell = document.getElementById(`${num}`);
-        cell.innerText = "O";
-        checkWinner(player2.playerArr);
-        gameBrain.turn = 'playerOne';
-        updateTurnShow();
+        boardArr.push(num);
+  
+        if (gameBrain.turn === 'playerOne') {
+          player1.playerArr += num;
+          var cell = document.getElementById(`${num}`);
+          cell.innerText = "X";
+          checkWinner(player1.playerArr);
+          gameBrain.turn = 'playerTwo';
+          gameboard.showTurn();
+        } else {
+          player2.playerArr += num;
+          var cell = document.getElementById(`${num}`);
+          cell.innerText = "O";
+          checkWinner(player2.playerArr);
+          gameBrain.turn = 'playerOne';
+          
+        };
+        gameboard.showTurn();
       };
-    };
+    }
   };
 
   // Compare each player's placements to see if they match game-winning combinations.
@@ -52,13 +55,21 @@ const gameBrain = (() => {
     };
 
     if (winnerArr.includes(true) && gameBrain.turn == 'playerOne')  {
-      console.log(`Player One wins!`)
-      } else if (winnerArr.includes(true) && gameBrain.turn == 'playerTwo') {
-        console.log('Player Two wins!')
-      }
-    
+      gameboard.declareResult('Player One wins');
+      player1.score ++;
+      gameboard.updateScore(player1.score, 'playerOneScore');
+      gameBrain.active = false;
+    } else if (winnerArr.includes(true) && gameBrain.turn == 'playerTwo') {
+      gameboard.declareResult('Player Two wins');
+      player2.score ++;
+      gameboard.updateScore(player2.score, 'playerTwoScore');
+      gameBrain.active = false;
+    };
 
-
+    if (gameBrain.boardArr.length == 9) {
+      gameboard.declareResult("It's a draw");
+      gameBrain.active = false;
+    }
   };
 
   return {
@@ -68,9 +79,9 @@ const gameBrain = (() => {
   };
 })();
 
-// Gameboard module
+// Gameboard module for displaying the board and scores. 
 
-const gameboard= (() => {
+const gameboard = (() => {
   const makeBoard = () => {
     const board = document.getElementById('board');
     for (let i = 1; i < 10; i++) {
@@ -84,8 +95,43 @@ const gameboard= (() => {
     };
   };
 
-  return {makeBoard};
+  // Show whose turn it is.
+
+  const showTurn = function() {
+    var turnShow = document.getElementById('turn');
+    turnShow.innerText = `Turn: ${gameBrain.turn}`;
+  }
+
+  // Declare result once either player has won, or it's a draw.
+
+  const declareResult = function(result) {
+
+    document.getElementById('result').innerText = `Result: ${result}!`;
+  };
+
+  // Update the scoreboard.
+
+  const updateScore = function(score, player) {
+    document.getElementById(`${player}`).innerText = `Player * score: ${score}`;
+  }
+
+  // Start new game. 
+
+  const newGame = function() {
+    gameBrain.active = true;
+    document.getElementById('board').innerHTML = '';
+    document.getElementById('result').innerText = 'Result:'
+    gameBrain.boardArr = [];
+    player1.playerArr = [];
+    player2.playerArr = [];
+    gameboard.makeBoard();
+  }
+
+  return {makeBoard, showTurn, declareResult, updateScore, newGame};
 })();
+
+
+
 
 // Player factory 
 
@@ -105,7 +151,16 @@ function updateTurnShow() {
   turnShow.innerText = `Turn: ${gameBrain.turn}`;
 }
 
-updateTurnShow();
+gameboard.showTurn();
+
+gameBrain.active = true;
+
+var modal = document.getElementById('modal');
+var modalBtn = document.getElementById('modalBtn');
+
+modalBtn.onclick = function() {
+  modal.style.display = "flex";
+}
 
 
 

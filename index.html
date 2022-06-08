@@ -13,17 +13,25 @@
     <div class="sidebar">
       <h1>Tic Tac Toe</h1>
       <p id="turn">Turn:</p>
-      <p id="winner">Winner:</p>
-      
+      <p id="result">Result:</p>
+      <p id="playerOneScore">Player 1 score:</p>
+      <p id="playerTwoScore">Player 2 score:</p>
+      <button onclick="gameboard.newGame()">New Game</button>
+      <button id="modalBtn">Open Modal</button>
+    </div>
+    <div id="board">
+      <div id="modal" class="modal">
+        <div class="modalContent">
+          <p>Boo!</p>
+        </div>
+      </div>
 
 
     </div>
-    <div id="board"></div>
+
   </div>
 
   
-
-
   <!-- Javascript  -->
   <script src="scripts.js"></script>
 
