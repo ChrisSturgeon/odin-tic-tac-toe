@@ -6,7 +6,7 @@ const gameBrain = (() => {
 
   const assignSquare = function(num) {
     if (gameBrain.boardArr.includes(num)) {
-      console.log('Number taken!')
+      console.log('Number taken!');
     } else {
       console.log(num);
       boardArr.push(num);
@@ -15,8 +15,8 @@ const gameBrain = (() => {
         player1.playerArr += num;
         var cell = document.getElementById(`${num}`);
         cell.innerText = "X";
-        gameBrain.turn = 'playerTwo';
         checkWinner(player1.playerArr);
+        gameBrain.turn = 'playerTwo';
         updateTurnShow();
       } else {
         player2.playerArr += num;
@@ -25,9 +25,11 @@ const gameBrain = (() => {
         checkWinner(player2.playerArr);
         gameBrain.turn = 'playerOne';
         updateTurnShow();
-      }
+      };
     };
   };
+
+  // Compare each player's placements to see if they match game-winning combinations.
 
   const checkWinner = function(playerArr) {
     const winningCombos = [
@@ -45,21 +47,19 @@ const gameBrain = (() => {
     for (let i = 0; i < winningCombos.length; i++) {
       const winner = winningCombos[i].every(value => {
         return playerArr.includes(value);
-      })
+      });
       winnerArr.push(winner);
     };
 
-    if (winnerArr.includes(true)) {
-      console.log('WE HAVE A WINNER!!!')
-    };
+    if (winnerArr.includes(true) && gameBrain.turn == 'playerOne')  {
+      console.log(`Player One wins!`)
+      } else if (winnerArr.includes(true) && gameBrain.turn == 'playerTwo') {
+        console.log('Player Two wins!')
+      }
+    
 
-    if (boardArr.length == 9) {
-      console.log('Draw!')
-    }
 
-
-  
-  }
+  };
 
   return {
     turn,
@@ -68,7 +68,7 @@ const gameBrain = (() => {
   };
 })();
 
-// gameboard module
+// Gameboard module
 
 const gameboard= (() => {
   const makeBoard = () => {
@@ -106,18 +106,6 @@ function updateTurnShow() {
 }
 
 updateTurnShow();
-
-const winningCombos = [
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9],
-  [1, 4, 7],
-  [2, 5, 7],
-  [2, 5, 8],
-  [3, 8, 9],
-  [1, 5, 8],
-  [7, 5, 3]
-];
 
 
 
