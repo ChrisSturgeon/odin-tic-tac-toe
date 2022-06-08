@@ -58,16 +58,19 @@ const gameBrain = (() => {
       player1.score ++;
       gameboard.updateScore(player1.score, 'playerOneScore');
       gameBrain.active = false;
+      gameboard.hideTurn();
     } else if (winnerArr.includes(true) && gameBrain.turn == 'playerTwo') {
-      gameboard.declareResult('Player Two wins');
+      setTimeout(gameboard.declareResult('Player Two wins'), 3000);
       player2.score ++;
       gameboard.updateScore(player2.score, 'playerTwoScore');
       gameBrain.active = false;
+      gameboard.hideTurn();
     };
 
     if (gameBrain.boardArr.length == 9) {
       gameboard.declareResult("It's a draw");
       gameBrain.active = false;
+      gameboard.hideTurn();
     }
   };
 
@@ -106,17 +109,27 @@ const gameboard = (() => {
     } else {
       turnText.innerText = "Player two's turn:";
       turnPic.innerText = "O";
-    }
-    
-    // turnText.innerText = `Turn: ${gameBrain.turn}`;
+    };
+  };
 
+  // Hide next turn 
+
+  const hideTurn = function() {
+    document.getElementById('turn').style.opacity = '0';
+  }
+
+  // Show next turn 
+
+  const displayTurn = function() {
+    document.getElementById('turn').style.opacity = '100';
   }
 
   // Declare result once either player has won, or it's a draw.
 
   const declareResult = function(result) {
 
-    document.getElementById('result').innerText = `Result: ${result}!`;
+    document.getElementById('result').innerText = `${result}!`;
+    document.getElementById('modal').style.display = 'flex';
   };
 
   // Update the scoreboard.
@@ -128,6 +141,7 @@ const gameboard = (() => {
   // Start new game. 
 
   const newGame = function() {
+    document.getElementById('modal').style.display = 'none';
     gameBrain.active = true;
     document.getElementById('board').innerHTML = '';
     document.getElementById('result').innerText = 'Result:'
@@ -135,12 +149,26 @@ const gameboard = (() => {
     player1.playerArr = [];
     player2.playerArr = [];
     gameboard.makeBoard();
+    gameboard.displayTurn();
   }
 
-  return {makeBoard, showTurn, declareResult, updateScore, newGame};
+  // Declined new game
+
+  const decline = function() {
+    document.getElementById('modal').style.display = 'none';
+  }
+
+  return {
+    makeBoard, 
+    showTurn, 
+    hideTurn,
+    displayTurn,
+    declareResult, 
+    updateScore, 
+    newGame,
+    decline,
+  };
 })();
-
-
 
 
 // Player factory 
@@ -164,13 +192,6 @@ function updateTurnShow() {
 gameboard.showTurn();
 
 gameBrain.active = true;
-
-var modal = document.getElementById('modal');
-var modalBtn = document.getElementById('modalBtn');
-
-modalBtn.onclick = function() {
-  modal.style.display = "flex";
-}
 
 
 

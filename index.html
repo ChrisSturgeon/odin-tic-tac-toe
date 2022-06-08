@@ -15,29 +15,28 @@
   <div class="container">
     <div class="sidebar">
       <h1>Tic Tac Toe</h1>
-      <div class="turn">
+      <div id="turn">
         <div id="turnText">Turn:</div>
         <div id="turnPic"></div>
       </div>
-      <p id="result">Result:</p>
-
-      <!-- <button id="modalBtn">Open Modal</button> -->
       <div class="scores">
         <div>Scores</div>
-        <div>Player 1</div>
+        <div>Player 1:</div>
         <div id="playerOneScore">0</div>
-        <div>Player 2</div>
+        <div>Player 2:</div>
         <div id="playerTwoScore">0</div>
-
       </div>
-      <button onclick="gameboard.newGame()">New Game</button>
-
     </div>
     <div class="content">
       <div id="board"></div>
       <div id="modal" class="modal">
         <div class="modalContent">
-          <p>Boo!</p>
+          <h2 id="result"></h2>
+          <p>Play again?</p>
+          <div class="modalButtons">
+            <button id="yes" onclick="gameboard.newGame()">Yes</button>
+            <button id="no" onclick="gameboard.decline()">No</button>
+          </div>
         </div>
       </div>
     </div>
