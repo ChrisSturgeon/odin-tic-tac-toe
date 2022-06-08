@@ -49,35 +49,95 @@ table {
 
 /* My CSS */
 
+body {
+  font-family: 'Gloria Hallelujah', cursive;
+}
+
 
 .container {
   height: 100vh;
   width: 100vw;
-  background-color: red;
   display: grid;
-
+  background-image: url("images/paper.avif");
   grid-template-columns: 20vw 80vw;
   
 }
 
-
-#board {
-  display: grid;
-  height: 500px;
-  width: 500px;
-  grid-template-columns: 1fr 1fr 1fr;
+.sidebar {
+  border-right: 2px solid black;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  align-content: center;
+  justify-content: space-around;
 }
 
-.gridCell {
-  font-size: 2rem;
-  background-color: rgb(181, 248, 169);
-  height: 200px; 
-  width: 200px;
-  border: 1px solid black;
+h1 {
+  font-size: 7vw;
+  text-align: center;
+}
+
+.turn {
+  margin-top: 50px;
+  font-size: 2vw;
+  text-align: center;
+}
+
+#turnPic {
+  font-size: 7vw;
+}
+
+.scores {
+  font-size: 2vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  padding: 20px;
+  justify-self: baseline;
+}
+
+.scores div:first-of-type {
+  grid-column: 1/-1;
+}
+
+.content {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+#board {
+  display: grid;
+  height: 60vh;
+  width: 60vh;
+  grid-template-columns: 1fr 1fr 1fr;
+  transform: rotate(3deg);
+}
+
+.gridCell {
+  font-size: 8vw;
+  height: 20vh; 
+  width: 20vh;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gridCell:first-of-type, .gridCell:nth-of-type(2), .gridCell:nth-of-type(3) {
+  border-bottom: none;
+}
+
+.gridCell:last-of-type, .gridCell:nth-of-type(7), .gridCell:nth-of-type(8) {
+  border-top: none;
+}
+
+.gridCell:nth-of-type(2), .gridCell:nth-of-type(5), .gridCell:nth-of-type(8) {
+  border-right: none;
+  border-left: none;
+}
+
+
 
 .modal {
     display: none; /* Hidden by default */

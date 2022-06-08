@@ -18,7 +18,6 @@ const gameBrain = (() => {
           cell.innerText = "X";
           checkWinner(player1.playerArr);
           gameBrain.turn = 'playerTwo';
-          gameboard.showTurn();
         } else {
           player2.playerArr += num;
           var cell = document.getElementById(`${num}`);
@@ -98,8 +97,19 @@ const gameboard = (() => {
   // Show whose turn it is.
 
   const showTurn = function() {
-    var turnShow = document.getElementById('turn');
-    turnShow.innerText = `Turn: ${gameBrain.turn}`;
+    var turnText = document.getElementById('turnText');
+    var turnPic = document.getElementById('turnPic')
+
+    if (gameBrain.turn == "playerOne") {
+      turnText.innerText = "Player one's turn:";
+      turnPic.innerText = "X";
+    } else {
+      turnText.innerText = "Player two's turn:";
+      turnPic.innerText = "O";
+    }
+    
+    // turnText.innerText = `Turn: ${gameBrain.turn}`;
+
   }
 
   // Declare result once either player has won, or it's a draw.
@@ -112,7 +122,7 @@ const gameboard = (() => {
   // Update the scoreboard.
 
   const updateScore = function(score, player) {
-    document.getElementById(`${player}`).innerText = `Player * score: ${score}`;
+    document.getElementById(`${player}`).innerText = `${score}`;
   }
 
   // Start new game. 
@@ -121,7 +131,7 @@ const gameboard = (() => {
     gameBrain.active = true;
     document.getElementById('board').innerHTML = '';
     document.getElementById('result').innerText = 'Result:'
-    gameBrain.boardArr = [];
+    gameBrain.boardArr.splice(0, gameBrain.boardArr.length);
     player1.playerArr = [];
     player2.playerArr = [];
     gameboard.makeBoard();
