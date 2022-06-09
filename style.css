@@ -127,6 +127,10 @@ h1 {
   align-items: center;
 }
 
+.gridCell:hover {
+  background-color: rgba(0, 0, 0, 0.108);
+}
+
 .gridCell:first-of-type, .gridCell:nth-of-type(2), .gridCell:nth-of-type(3) {
   border-bottom: none;
 }
