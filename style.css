@@ -215,6 +215,7 @@ input:focus {
 
 .modalContent h2 {
   font-size: 9.5vw;
+  text-align: center;
 }
 
 .modalContent p {
