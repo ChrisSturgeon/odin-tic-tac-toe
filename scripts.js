@@ -8,7 +8,6 @@ const gameBrain = (() => {
   const assignSquare = function(num) {
     if (gameBrain.active) {
       if (gameBrain.boardArr.includes(num)) {
-        console.log('Number taken!');
       } else {
         boardArr.push(num);
   
@@ -54,21 +53,19 @@ const gameBrain = (() => {
     };
 
     if (winnerArr.includes(true) && gameBrain.turn == 'playerOne')  {
-      gameboard.declareResult('Player One wins');
+      setTimeout(function() {gameboard.declareResult(`${player1.displayName} wins`)}, 300);
       player1.score ++;
       gameboard.updateScore(player1.score, 'playerOneScore');
       gameBrain.active = false;
       gameboard.hideTurn();
     } else if (winnerArr.includes(true) && gameBrain.turn == 'playerTwo') {
-      setTimeout(gameboard.declareResult('Player Two wins'), 3000);
+      setTimeout(function() {gameboard.declareResult(`${player2.displayName} wins`)}, 300);
       player2.score ++;
       gameboard.updateScore(player2.score, 'playerTwoScore');
       gameBrain.active = false;
       gameboard.hideTurn();
-    };
-
-    if (gameBrain.boardArr.length == 9) {
-      gameboard.declareResult("It's a draw");
+    } else if (gameBrain.boardArr.length == 9) {
+      setTimeout(function() {gameboard.declareResult("It's a draw")}, 300);
       gameBrain.active = false;
       gameboard.hideTurn();
     }
@@ -82,6 +79,12 @@ const gameBrain = (() => {
 })();
 
 // Gameboard module for displaying the board and scores. 
+
+// Display start intro modal
+
+const intro = function() {
+  document.getElementById('introModal').style.display = "flex";
+}
 
 const gameboard = (() => {
   const makeBoard = () => {
@@ -104,10 +107,11 @@ const gameboard = (() => {
     var turnPic = document.getElementById('turnPic')
 
     if (gameBrain.turn == "playerOne") {
-      turnText.innerText = "Player one's turn:";
+      turnText.innerText = `${player1.displayName}'s turn:`;
+      
       turnPic.innerText = "X";
     } else {
-      turnText.innerText = "Player two's turn:";
+      turnText.innerText = `${player2.displayName}'s turn:`;
       turnPic.innerText = "O";
     };
   };
@@ -152,6 +156,32 @@ const gameboard = (() => {
     gameboard.displayTurn();
   }
 
+  // Set player display names
+
+  const setNames = function() {
+
+    var p1 = document.getElementById('p1').value;
+    var p2 = document.getElementById('p2').value;
+    
+    if (p1.length > 0 && p1.length < 8) {
+      player1.displayName = p1;
+      document.getElementById('p1Name').innerText = player1.displayName;
+    } else {
+      player1.displayName = 'Player One';
+    };
+    if (p2.length > 0 && p2.length < 8) {
+      player2.displayName = p2;
+      document.getElementById('p2Name').innerText = player2.displayName;
+    } else {
+      player2.displayName = 'Player Two';
+    };
+
+    document.getElementById('introModal').style.display = 'none';
+    document.getElementById('turn').style.opacity = '100';
+    document.getElementById('scores').style.opacity = '100';
+    gameboard.showTurn();
+  }
+
   // Declined new game
 
   const decline = function() {
@@ -159,6 +189,7 @@ const gameboard = (() => {
   }
 
   return {
+    intro,
     makeBoard, 
     showTurn, 
     hideTurn,
@@ -166,6 +197,7 @@ const gameboard = (() => {
     declareResult, 
     updateScore, 
     newGame,
+    setNames,
     decline,
   };
 })();
@@ -176,22 +208,20 @@ const gameboard = (() => {
 const Player = function(name) {
   var playerArr = [];
   var score = 0;
+
   return {name, playerArr, score};
 }
 
-const player1 = Player('playerOne');
-const player2 = Player('PlayerTwo');
+var player1 = Player('playerOne', 'Player One');
+var player2 = Player('PlayerTwo', 'Player Two');
+
+
 
 gameboard.makeBoard();
-
-function updateTurnShow() {
-  var turnShow = document.getElementById('turn');
-  turnShow.innerText = `Turn: ${gameBrain.turn}`;
-}
-
+gameBrain.active = true;
+gameboard.intro();
 gameboard.showTurn();
 
-gameBrain.active = true;
 
 
 
